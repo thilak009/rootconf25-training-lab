@@ -1,17 +1,22 @@
-name: Hello World on Self-Hosted Runner
+name: Run eBPF Supply Chain Detector
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  hello:
+  run-ebpf:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Pull latest image
+        run: docker pull rohitcoder/supplychain:latest
 
-      - name: Print Hello World
-        run: echo "Hello, World from self-hosted runner!"
+      - name: Run eBPF supply chain detector
+        run: |
+          docker run --rm --privileged \
+            -v /sys:/sys \
+            -v /proc:/proc \
+            -v /lib/modules:/lib/modules \
+            -v /usr/src:/usr/src \
+            rohitcoder/supplychain:latest
