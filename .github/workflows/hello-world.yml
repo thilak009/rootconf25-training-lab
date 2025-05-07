@@ -1,0 +1,17 @@
+name: Hello World on Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hello:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print Hello World
+        run: echo "Hello, World from self-hosted runner!"
