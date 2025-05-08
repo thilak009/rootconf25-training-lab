@@ -1,4 +1,4 @@
-name: Run eBPF Supply Chain Detector
+name: Run eBPF Supply Chain Detector 1
 
 on:
   push:
