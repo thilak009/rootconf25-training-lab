@@ -14,7 +14,7 @@ jobs:
 
       - name: Run eBPF supply chain detector in background
         run: |
-          docker run -d --name ebpf_detector --privileged \
+          docker run --name ebpf_detector --privileged \
             -v /sys:/sys \
             -v /proc:/proc \
             -v /lib/modules:/lib/modules \
