@@ -14,7 +14,7 @@ jobs:
 
       - name: Run eBPF supply chain detector in background
         run: |
-            docker run -d --name ebpf_detector --privileged \
+            docker run -d --name ebpf_detector1 --privileged \
             --pid=host \
             --network=host \
             -v /sys:/sys \
@@ -36,4 +36,4 @@ jobs:
           cat ebpf_logs.txt
 
       - name: Stop and cleanup
-        run: docker rm -f ebpf_detector
+        run: docker rm -f ebpf_detector1
