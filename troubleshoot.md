@@ -105,13 +105,3 @@ sudo echo > /sys/kernel/debug/tracing/trace  # Clear trace buffer
 ✅ Run one tracer at a time.
 ✅ Kill old readers.
 ✅ Clear trace buffer before rerunning.
-
-```
-
----
-
-Copy-paste this directly into `TROUBLESHOOTING.md`.
-
-Want me to give you the next file `docs/FAQ.md` with workshop-specific common issues (e.g., `.env not detected`, `kprobe failing`, `CI alerts not showing`)?  
-Reply `Yes, FAQ`.
-```
