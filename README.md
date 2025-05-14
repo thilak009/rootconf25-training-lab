@@ -144,6 +144,7 @@ git commit --allow-empty -m "Trigger CI"
 git push
 ```
 
+
 ✅ Workflow will run `.github/workflows/hello-world.yml` and show detections.
 
 🎯 **Goal:** See runtime detection working inside CI pipelines.
@@ -161,6 +162,10 @@ Now you will extend the detectors.
 * [ ] Add `.pem` and `.aws` files to sensitive file detection.
 * [ ] Detect if a binary from `/tmp` spawns `curl` (process chain).
 * [ ] Bonus: Modify `supplychain-detect.py` and build your own Docker image.
+
+
+
+<img width="412" alt="image" src="https://github.com/user-attachments/assets/13964e30-c41c-4973-80b1-f1f8a4b50dfe" />
 
 Hints:
 
