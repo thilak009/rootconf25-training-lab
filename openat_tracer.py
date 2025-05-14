@@ -1,5 +1,5 @@
 // This traces open events for .env files
-from bcc import BPF
+from bcc import BPF 
 
 bpf_code = """
 #include <uapi/linux/ptrace.h>
