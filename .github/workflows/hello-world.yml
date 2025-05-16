@@ -6,7 +6,7 @@ on:
 
 jobs:
   run-ebpf:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Pull latest image
