@@ -1,4 +1,4 @@
-// This traces open events for .env files
+// This traces open events for .env files 
 from bcc import BPF 
 
 bpf_code = """
